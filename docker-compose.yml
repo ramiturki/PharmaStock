@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "Rt@132217*!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sqlserver
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://sqlserver:1433;databaseName=PharmaInventory
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: Rt@132217*!
+  ui:
+    build: ./pharma-inventory-ui
+    ports:
+      - "3000:3000"
